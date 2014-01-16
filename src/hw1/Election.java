@@ -1,5 +1,6 @@
 package hw1;
-/** This is hw1. This is the election class which contains the main method. It prints out the choices and let people choose.
+/** This is hw1. This is the election class which contains the main method. 
+ * It prints out the choices and let people choose.
  * @author Zhuoming Li
  * @version 1.0 Jan. 13th 2014
  */
@@ -14,7 +15,6 @@ public class Election {
 		BallotBox aBallotBox = new BallotBox();
 		BagInterface<Ballot> ballots = aBallotBox.getBallots();
 		boolean isDone = false;
-		while (isDone == false){ 
 		System.out.println("Welcome to the election! What would you like to do?");
 		System.out.println("1: Vote for a candidate");
 		System.out.println("2: Count the number of votes for a candidate");
@@ -23,6 +23,7 @@ public class Election {
 		System.out.println("5: Empty ballot box");
 		System.out.println("6: Print all votes");
 		System.out.println("7: Quit");
+		while (isDone == false){ 
 		System.out.println("Enter your choice here:");
 		Scanner keyboard = new Scanner(System.in); //assume the input will be an integer
 		int i = keyboard.nextInt();
@@ -36,6 +37,7 @@ public class Election {
 			Scanner keyboardBribeAmount = new Scanner(System.in);
 			double bribeAmount = keyboardBribeAmount.nextDouble();
 			ballots.add(new Ballot(name, bribeAmount));
+			System.out.println("Vote added successfully");
 			break;
 		case 2: 
 			// count the votes for a particular candidate
@@ -47,8 +49,28 @@ public class Election {
 			break;
 		case 3:
 			//remove a vote
-			Ballot ballotRemoved = ballots.remove();
-			System.out.println("You have removed the vote: " + ballotRemoved);
+			System.out.println("1: to remove a random one");
+			System.out.println("2: to remove a specific one");
+			Scanner keyboardRemove = new Scanner(System.in);
+			int m = keyboardRemove.nextInt();
+			if (m==1) {
+					Ballot ballotRemoved = ballots.remove();
+					System.out.println("You have removed the vote: " + ballotRemoved);
+			}
+			else if (m==2){
+					System.out.println("Please enter the name of the person whose vote you want to remove");
+					Scanner keyboardNameRemove = new Scanner(System.in);
+					String nameRemove = keyboardNameRemove.next();
+					boolean done = false; 
+					int q = 0;
+					Object[] arr = ballots.toArray();
+					while ( done == false){
+						if (arr[q].equals(new Ballot(nameRemove, 1)))
+								ballots.remove((Ballot) arr[q]);
+								System.out.println("A vote for " + arr[q] + " has been removed");	
+								done = true;}
+			}
+			else System.out.println("Sorry your input is not valid");
 			break;
 		case 4:
 			//getCurrentSize()
@@ -69,9 +91,11 @@ public class Election {
 		case 7: 
 			//quit
 			isDone = true;
+			System.out.println("Thank you!");
 			break;	
 		default: System.out.println("Please enter a valid number:");
 		}}
 	}
 	
 }
+
